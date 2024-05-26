@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\App\Resources;
 
-use App\Filament\Resources\IssueResource\Pages;
-use App\Filament\Resources\IssueResource\RelationManagers;
-use App\Filament\Resources\IssueResource\RelationManagers\ResolutionRelationManager;
+use App\Filament\App\Resources\IssueResource\Pages;
+use App\Filament\App\Resources\IssueResource\RelationManagers;
+use App\Filament\App\Resources\IssueResource\RelationManagers\ResolutionRelationManager;
 use App\Models\Issue;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class IssueResource extends Resource
@@ -19,6 +20,7 @@ class IssueResource extends Resource
     protected static ?string $model = Issue::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
 
     public static function form(Form $form): Form
     {
@@ -108,13 +110,27 @@ class IssueResource extends Resource
             ]);
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return false;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
     public static function getRelations(): array
     {
         return [
             ResolutionRelationManager::class,
         ];
     }
-
 
     public static function getPages(): array
     {
