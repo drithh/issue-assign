@@ -43,10 +43,12 @@ class IssueResolution extends Model
         'file_url',
         'resolved_by',
         'resolved_at',
+        'file'
     ];
 
     protected $casts = [
         'resolved_at' => 'datetime',
+        'file_url' => 'array',
     ];
 
     public function issue()

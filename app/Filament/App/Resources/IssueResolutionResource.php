@@ -46,8 +46,16 @@ class IssueResolutionResource extends Resource
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('file_url')
-                    ->maxLength(255)
+                Forms\Components\FileUpload::make('file_url')
+                    ->label('File Upload')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->required()
+                    ->preserveFilenames()
+                    ->multiple()
+                    ->openable()
+                    ->downloadable()
+                    ->appendFiles()
                     ->columnSpanFull(),
 
             ]);
