@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
+            $table->string('findings');
+            $table->string('criteria');
+            $table->string('requirements');
+            $table->string('root_cause_analysis');
+            $table->string('corrective_actions');
+            $table->timestamp('target_time');
+            $table->foreignId('department_id')->constrained()->onDelete('cascade');
+            $table->boolean('is_accepted')->default(false);
             $table->timestamps();
         });
     }

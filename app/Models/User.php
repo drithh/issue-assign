@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements HasTenants
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -51,18 +50,8 @@ class User extends Authenticatable implements HasTenants
         'is_admin' => 'boolean'
     ];
 
-    public function departments(): BelongsToMany
+    public function departments()
     {
-        return $this->belongsToMany(Department::class);
-    }
-
-    public function getTenants(Panel $panel): Collection
-    {
-        return $this->departments;
-    }
-
-    public function canAccessTenant(Model $tenant): bool
-    {
-        return $this->departments()->whereKey($tenant)->exists();
+        return $this->belongsTo(Department::class);
     }
 }

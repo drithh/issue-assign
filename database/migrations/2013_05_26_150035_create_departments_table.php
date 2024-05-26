@@ -17,13 +17,6 @@ return new class extends Migration
             $table->string('slug');
             $table->timestamps();
         });
-
-        Schema::create('department_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('department_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->timestamps();
-        });
     }
 
     /**
@@ -31,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('department_user');
         Schema::dropIfExists('departments');
     }
 };
