@@ -30,7 +30,7 @@ class IssueResolutionResource extends Resource
                     ->required()
                     ->columnSpanFull()
                     ->options(
-                        \App\Models\Issue::all()->pluck('findings', 'id')
+                        \App\Models\Issue::whereDoesntHave('issueResolution')->get()->pluck('findings', 'id')
                     ),
                 Forms\Components\Select::make('resolved_by')
                     ->label('Resolved By')
@@ -38,10 +38,10 @@ class IssueResolutionResource extends Resource
                         \App\Models\User::all()->pluck('email', 'id')
                     )
                     ->required()
-                    ->hiddenOn(Pages\EditIssueResolution::class, Pages\CreateIssueResolution::class),
+                    ->hiddenOn([Pages\CreateIssueResolution::class, Pages\EditIssueResolution::class]),
                 Forms\Components\DateTimePicker::make('resolved_at')
                     ->required()
-                    ->hiddenOn(Pages\EditIssueResolution::class, Pages\CreateIssueResolution::class),
+                    ->hiddenOn([Pages\CreateIssueResolution::class, Pages\EditIssueResolution::class]),
                 Forms\Components\Textarea::make('resolution_description')
                     ->required()
                     ->maxLength(65535)

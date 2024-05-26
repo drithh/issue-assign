@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class VerifyIsAdmin
+class RedirectAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,10 @@ class VerifyIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()) {
-            if (Auth::user()->is_admin) {
-                return $next($request);
-            } else {
-                redirect()->route('filament.app.pages.dashboard');
-            }
+        if (Auth::user() && Auth::user()->is_admin) {
+            return redirect()->route('filament.admin.pages.dashboard');
+        } else {
+            return $next($request);
         }
-        return redirect()->route('filament.app.auth.login');
     }
 }

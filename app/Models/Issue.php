@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Issue extends Model
 {
+    protected static function booted(): void
+    {
+        static::addGlobalScope('department', function (Builder $query) {
+            if (auth()->check() && !auth()->user()->is_admin) {
+                $query->where('department_id', auth()->user()->department_id);
+            }
+        });
+    }
+
     use HasFactory;
 
     protected $fillable = [

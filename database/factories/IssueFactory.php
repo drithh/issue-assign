@@ -17,7 +17,7 @@ class IssueFactory extends Factory
     public function definition(): array
     {
         return [
-            'department_id' => 1,
+            'department_id' => $this->faker->numberBetween(1, 3),
             'findings' => $this->faker->text(20),
             'criteria' => $this->faker->text(),
             'requirements' => $this->faker->text(),

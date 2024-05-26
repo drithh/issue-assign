@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        \App\Models\Department::factory(1)->create();
+        \App\Models\Department::factory(3)->create();
 
-        \App\Models\Issue::factory(3)->create();
+        \App\Models\Issue::factory(10)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'admin',
@@ -36,6 +36,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'user2@user.com',
             'password' => bcrypt('coba1234'),
             'department_id' => 1,
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'user3',
+            'email' => 'user3@user.com',
+            'password' => bcrypt('coba1234'),
+            'department_id' => 2,
         ]);
     }
 }

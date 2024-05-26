@@ -63,8 +63,8 @@ class IssueResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('department.name')
-                    ->searchable()
+                Tables\Columns\TextColumn::make('target_time')
+                    ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('findings')
                     ->searchable(),
@@ -79,9 +79,6 @@ class IssueResource extends Resource
                 Tables\Columns\TextColumn::make('corrective_actions')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('target_time')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('issueResolution.resolved_at')
                     ->label('Resolved At')
                     ->sortable(),

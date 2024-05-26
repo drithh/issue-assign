@@ -15,7 +15,7 @@ class ViewIssue extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
-            Action::make('Resolution')
+            Action::make('Open Resolution Issue')
                 ->url(function ($record) {
                     // Check if a resolution record already exists for the issue
                     $resolutionExists = $record->issueResolution()->exists();

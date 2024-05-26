@@ -2,9 +2,8 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\App\Pages\Tenancy\EditDepartmentProfile;
-use App\Filament\App\Pages\Tenancy\RegisterDepartment;
-use App\Models\Department;
+use App\Filament\App\Pages\Auth\Register;
+use App\Http\Middleware\RedirectAdmin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -39,7 +38,9 @@ class AppPanelProvider extends PanelProvider
                     ->visible(fn (): bool => auth()->user()->is_admin)
             ])
             ->login()
-            ->registration()
+            ->registration(
+                Register::class
+            )
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Gray,
@@ -68,6 +69,7 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                RedirectAdmin::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
