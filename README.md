@@ -11,6 +11,7 @@
 -   Modify the APP_URL variable in `.env` file to instantly update the title displayed on website.
 -   Uploaded files are stored in `storage/app/public` by default. Adjust this path to your desired location by editing the `config/filesystems.php` file.
 -   To change which disks use by file upload, manually modify the input settings in itself [IssueResolutionResource.php at Line 51](./app/Filament/App/Resources/IssueResolutionResource.php#L51)
+-   Dont forget to run `php artisan storage:link` to create a symbolic link to the `public/storage` directory.
 -   More about file upload go to [Filament Docs](https://filamentphp.com/docs/3.x/forms/fields/file-upload)
 
 ## Demo

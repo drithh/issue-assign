@@ -24,6 +24,7 @@ fi
 # php artisan migrate
 php artisan clear
 php artisan optimize:clear
+php artisan storage:link
 # php artisan migrate
 
 # Fix files ownership.
