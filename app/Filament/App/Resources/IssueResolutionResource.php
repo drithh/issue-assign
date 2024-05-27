@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class IssueResolutionResource extends Resource
 {
@@ -24,14 +25,22 @@ class IssueResolutionResource extends Resource
     {
         return $form
             ->schema([
-                // select issue
                 Forms\Components\Select::make('issue_id')
                     ->label('Issue')
                     ->required()
                     ->columnSpanFull()
                     ->options(
                         \App\Models\Issue::whereDoesntHave('issueResolution')->get()->pluck('findings', 'id')
-                    ),
+                    )->hiddenOn([Pages\ViewIssueResolution::class, Pages\EditIssueResolution::class]),
+                Forms\Components\Select::make('issue_id')
+                    ->label('Issue')
+                    ->required()
+                    ->columnSpanFull()
+                    ->options(
+                        \App\Models\Issue::all()->pluck('findings', 'id')
+                    )
+                    ->disabled()
+                    ->hiddenOn([Pages\CreateIssueResolution::class]),
                 Forms\Components\Select::make('resolved_by')
                     ->label('Resolved By')
                     ->options(
@@ -50,9 +59,15 @@ class IssueResolutionResource extends Resource
                     ->label('File Upload')
                     ->disk('public')
                     ->visibility('public')
+                    ->directory('issue_resolutions')
                     ->required()
-                    ->preserveFilenames()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                            ->prepend((string) now()->timestamp . '_')
+                    )
                     ->multiple()
+                    ->deletable()
+                    ->reorderable()
                     ->openable()
                     ->downloadable()
                     ->appendFiles()
@@ -72,7 +87,8 @@ class IssueResolutionResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('file_url')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('resolved_at')
                     ->dateTime()
                     ->sortable(),

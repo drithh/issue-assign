@@ -4,14 +4,17 @@ namespace App\Filament\Resources\IssueResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists;
 
 class ResolutionRelationManager extends RelationManager
 {
+
     protected static string $relationship = 'issueResolution';
 
     public function form(Form $form): Form
@@ -37,9 +40,14 @@ class ResolutionRelationManager extends RelationManager
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('file_url')
-                    ->maxLength(255)
-                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('file_url')
+                    ->label('File Upload')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->multiple()
+                    ->openable()
+                    ->downloadable()
+                    ->disabled()
             ]);
     }
 
@@ -59,6 +67,10 @@ class ResolutionRelationManager extends RelationManager
                 // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                // Tables\Actions\Action::make('view')
+                //     ->label('View')
+                //     ->icon('heroicon-o-eye')
+                //     ->url(fn ($record) => route('filament.admin.resources.issue-resolutions.view', $record))
                 Tables\Actions\ViewAction::make(),
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),

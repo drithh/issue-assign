@@ -67,7 +67,8 @@ class IssueResource extends Resource
                 Tables\Columns\TextColumn::make('findings')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('criteria')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('requirements')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -105,8 +106,10 @@ class IssueResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->paginated(true);
     }
+
+
 
     public static function getRelations(): array
     {

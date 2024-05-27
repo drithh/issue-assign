@@ -37,9 +37,13 @@ class ResolutionRelationManager extends RelationManager
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('file_url')
-                    ->maxLength(255)
-                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('file_url')
+                    ->disabled()
+                    ->label('File Upload')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->openable()
+                    ->downloadable()
             ]);
     }
 
