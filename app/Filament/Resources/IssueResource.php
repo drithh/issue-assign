@@ -24,40 +24,76 @@ class IssueResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('department_id')
-                    ->label('Department')
-                    ->required()
-                    ->options(
-                        \App\Models\Department::all()->pluck('name', 'id')
-                    ),
-                Forms\Components\DateTimePicker::make('target_time')
-                    ->required(),
-                Forms\Components\TextInput::make('findings')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('criteria')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('requirements')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('root_cause_analysis')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('corrective_actions')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'submitted' => 'Submitted',
-                        'resolved' => 'Resolved',
-                        'rejected' => 'Rejected',
-                    ]),
+                Forms\Components\Section::make('Issue Status')
+                    ->schema([
+                        Forms\Components\Select::make('status')
+                            ->label('Status')
+                            ->options([
+                                'pending' => 'Pending',
+                                'submitted' => 'Submitted',
+                                'resolved' => 'Resolved',
+                                'rejected' => 'Rejected',
+                            ])->hiddenOn(['create']),
+                        Forms\Components\Textarea::make('comment')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                    ])->columns(1)->hiddenOn(['create']),
+                Forms\Components\Section::make('Detail Issue')
+                    ->schema([
+                        Forms\Components\Select::make('department_id')
+                            ->label('Department')
+                            ->required()
+                            ->disabledOn(['edit'])
+                            ->options(
+                                \App\Models\Department::all()->pluck('name', 'id')
+                            ),
+                        Forms\Components\DateTimePicker::make('target_time')
+                            ->required(),
+                        Forms\Components\TextInput::make('findings')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('criteria')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('requirements')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('root_cause_analysis')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('corrective_actions')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                    ])->columns(2),
+                Forms\Components\Section::make('Issue Resolution')
+                    ->schema([
+                        Forms\Components\Select::make('resolved_by')
+                            ->label('Resolved By')
+                            ->options(
+                                \App\Models\User::all()->pluck('email', 'id')
+                            )
+                            ->disabled(),
+                        Forms\Components\DateTimePicker::make('submitted_at')
+                            ->disabled(),
+                        Forms\Components\Textarea::make('resolution_description')
+                            ->maxLength(65535)
+                            ->disabled()
+                            ->columnSpanFull(),
+                        Forms\Components\FileUpload::make('file_url')
+                            ->label('File Upload')
+                            ->disabled()
+                            ->disk('public')
+                            ->visibility('public')
+                            ->directory('issue_resolutions')
+                            ->multiple()
+                            ->openable()
+                            ->downloadable()
+                            ->columnSpanFull(),
+                    ])->columns(2)->hiddenOn(['create']),
+
 
             ]);
     }
@@ -86,8 +122,7 @@ class IssueResource extends Resource
                 Tables\Columns\TextColumn::make('target_time')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('issueResolution.submitted_at')
-                    ->label('Resolved At')
+                Tables\Columns\TextColumn::make('submitted_at')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -117,17 +152,15 @@ class IssueResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->defaultSort('target_time', 'desc');
+            ])->defaultSort(function (Builder $query): Builder {
+                return $query
+                    ->select('issues.*')
+                    ->orderBy('submitted_at', 'desc')
+                    ->orderBy('target_time', 'desc');
+            });
     }
 
 
-
-    public static function getRelations(): array
-    {
-        return [
-            ResolutionRelationManager::class,
-        ];
-    }
 
 
     public static function getPages(): array

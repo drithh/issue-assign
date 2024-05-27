@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class Issue extends Model
 {
@@ -26,13 +27,34 @@ class Issue extends Model
         'requirements',
         'root_cause_analysis',
         'corrective_actions',
+
         'target_time',
+        'resolution_description',
+        'file_url',
+        'resolved_by',
+        'submitted_at',
+
         'status',
+        'comment',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($issue) {
+            if (!Auth::user()->is_admin) {
+                $issue->status = 'resolved';
+                $issue->resolved_by = Auth::id();
+                $issue->submitted_at = now();
+            }
+        });
+    }
 
     protected $casts = [
         'target_time' => 'datetime',
         'status' => 'string',
+        'file_url' => 'array',
     ];
 
     public function department()
@@ -40,10 +62,10 @@ class Issue extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function issueResolution()
-    {
-        return $this->hasOne(IssueResolution::class);
-    }
+    // public function issueResolution()
+    // {
+    //     return $this->hasOne(IssueResolution::class);
+    // }
 
     public function getTargetTimeAttribute($value)
     {
