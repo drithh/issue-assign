@@ -15,12 +15,12 @@ class IssueResolution extends Model
 
         static::creating(function ($resolution) {
             $resolution->resolved_by = Auth::id();
-            $resolution->resolved_at = now();
+            $resolution->submitted_at = now();
         });
 
         static::updating(function ($resolution) {
             $resolution->resolved_by = Auth::id();
-            $resolution->resolved_at = now();
+            $resolution->submitted_at = now();
         });
     }
 
@@ -42,12 +42,12 @@ class IssueResolution extends Model
         'resolution_description',
         'file_url',
         'resolved_by',
-        'resolved_at',
+        'submitted_at',
         'file'
     ];
 
     protected $casts = [
-        'resolved_at' => 'datetime',
+        'submitted_at' => 'datetime',
         'file_url' => 'array',
     ];
 
@@ -69,26 +69,6 @@ class IssueResolution extends Model
     public function setTargetTimeAttribute($value)
     {
         $this->attributes['target_time'] = $this->asDateTime($value);
-    }
-
-    public function getIsAcceptedAttribute($value)
-    {
-        return (bool) $value;
-    }
-
-    public function setIsAcceptedAttribute($value)
-    {
-        $this->attributes['is_accepted'] = (bool) $value;
-    }
-
-    public function scopeAccepted(Builder $query)
-    {
-        return $query->where('is_accepted', true);
-    }
-
-    public function scopePending(Builder $query)
-    {
-        return $query->where('is_accepted', false);
     }
 
     public function scopeForIssue(Builder $query, Issue $issue)

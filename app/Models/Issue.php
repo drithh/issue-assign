@@ -27,12 +27,12 @@ class Issue extends Model
         'root_cause_analysis',
         'corrective_actions',
         'target_time',
-        'is_accepted',
+        'status',
     ];
 
     protected $casts = [
         'target_time' => 'datetime',
-        'is_accepted' => 'boolean',
+        'status' => 'string',
     ];
 
     public function department()
@@ -55,25 +55,6 @@ class Issue extends Model
         $this->attributes['target_time'] = $this->asDateTime($value);
     }
 
-    public function getIsAcceptedAttribute($value)
-    {
-        return (bool) $value;
-    }
-
-    public function setIsAcceptedAttribute($value)
-    {
-        $this->attributes['is_accepted'] = (bool) $value;
-    }
-
-    public function scopeAccepted(Builder $query)
-    {
-        return $query->where('is_accepted', true);
-    }
-
-    public function scopePending(Builder $query)
-    {
-        return $query->where('is_accepted', false);
-    }
 
     public function scopeForDepartment(Builder $query, Department $department)
     {

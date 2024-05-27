@@ -23,10 +23,14 @@ class ListIssues extends ListRecords
     {
         return [
             'all' => Tab::make(),
-            'active' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_accepted', false)),
-            'closed' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_accepted', true)),
+            'pending' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pending')),
+            'submitted' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'submitted')),
+            'rejected' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'rejected')),
+            'solved' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'resolved')),
         ];
     }
 }

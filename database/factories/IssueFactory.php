@@ -24,7 +24,7 @@ class IssueFactory extends Factory
             'root_cause_analysis' => $this->faker->text(),
             'corrective_actions' => $this->faker->text(),
             'target_time' => $this->faker->dateTime(),
-            'is_accepted' => false,
+            'status' => 'pending',
         ];
     }
 }

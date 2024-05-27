@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateIssueResolution extends CreateRecord
 {
     protected static string $resource = IssueResolutionResource::class;
+    protected static bool $canCreateAnother = false;
 }

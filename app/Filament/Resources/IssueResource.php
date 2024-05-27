@@ -50,9 +50,14 @@ class IssueResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                Forms\Components\Toggle::make('is_accepted')
-                    ->required()
-                    ->columnSpanFull(),
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'submitted' => 'Submitted',
+                        'resolved' => 'Resolved',
+                        'rejected' => 'Rejected',
+                    ]),
 
             ]);
     }
@@ -81,11 +86,17 @@ class IssueResource extends Resource
                 Tables\Columns\TextColumn::make('target_time')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('issueResolution.resolved_at')
+                Tables\Columns\TextColumn::make('issueResolution.submitted_at')
                     ->label('Resolved At')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_accepted')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'gray',
+                        'submitted' => 'blue',
+                        'resolved' => 'green',
+                        'rejected' => 'red',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -106,7 +117,7 @@ class IssueResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->paginated(true);
+            ])->defaultSort('target_time', 'desc');
     }
 
 

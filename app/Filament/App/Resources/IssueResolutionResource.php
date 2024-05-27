@@ -48,7 +48,7 @@ class IssueResolutionResource extends Resource
                     )
                     ->required()
                     ->hiddenOn([Pages\CreateIssueResolution::class, Pages\EditIssueResolution::class]),
-                Forms\Components\DateTimePicker::make('resolved_at')
+                Forms\Components\DateTimePicker::make('submitted_at')
                     ->required()
                     ->hiddenOn([Pages\CreateIssueResolution::class, Pages\EditIssueResolution::class]),
                 Forms\Components\Textarea::make('resolution_description')
@@ -89,7 +89,7 @@ class IssueResolutionResource extends Resource
                 Tables\Columns\TextColumn::make('file_url')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('resolved_at')
+                Tables\Columns\TextColumn::make('submitted_at')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

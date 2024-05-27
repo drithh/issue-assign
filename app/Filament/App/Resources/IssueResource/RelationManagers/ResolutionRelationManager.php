@@ -31,7 +31,7 @@ class ResolutionRelationManager extends RelationManager
                         \App\Models\User::all()->pluck('email', 'id')
                     )
                     ->required(),
-                Forms\Components\DateTimePicker::make('resolved_at')
+                Forms\Components\DateTimePicker::make('submitted_at')
                     ->required(),
                 Forms\Components\Textarea::make('resolution_description')
                     ->required()
@@ -54,7 +54,7 @@ class ResolutionRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('resolution_description'),
                 Tables\Columns\TextColumn::make('resolver.email'),
-                Tables\Columns\TextColumn::make('resolved_at'),
+                Tables\Columns\TextColumn::make('submitted_at'),
             ])
             ->filters([
                 //

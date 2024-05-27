@@ -52,9 +52,15 @@ class IssueResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                Forms\Components\Toggle::make('is_accepted')
-                    ->required()
-                    ->columnSpanFull(),
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'submitted' => 'Submitted',
+                        'resolved' => 'Resolved',
+                        'rejected' => 'Rejected',
+                    ])
+                    ->required(),
 
             ]);
     }
@@ -79,11 +85,17 @@ class IssueResource extends Resource
                 Tables\Columns\TextColumn::make('corrective_actions')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('issueResolution.resolved_at')
+                Tables\Columns\TextColumn::make('issueResolution.submitted_at')
                     ->label('Resolved At')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_accepted')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'gray',
+                        'submitted' => 'blue',
+                        'resolved' => 'green',
+                        'rejected' => 'red',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -104,8 +116,16 @@ class IssueResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->defaultSort(function (Builder $query): Builder {
+                return $query
+                    ->select('issues.*')
+                    ->leftJoin('issue_resolutions', 'issues.id', '=', 'issue_resolutions.issue_id')
+                    ->orderBy('issue_resolutions.submitted_at', 'desc')
+                    ->orderBy('target_time', 'desc');
+            });
     }
+
+
 
     public static function canCreate(): bool
     {
