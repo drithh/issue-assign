@@ -36,14 +36,13 @@ class IssueResource extends Resource
                                 'submitted' => 'Submitted',
                                 'resolved' => 'Resolved',
                                 'rejected' => 'Rejected',
-                            ])->hiddenOn(['create'])
+                            ])
                             ->disabled(),
                         Forms\Components\Textarea::make('comment')
                             ->maxLength(255)
                             ->columnSpanFull()
-                            ->disabledOn(['edit'])
-                            ->readOnly(),
-                    ])->columns(1),
+                            ->disabled(),
+                    ])->columns(1)->hiddenOn(['create']),
                 Forms\Components\Section::make('Detail Issue')
                     ->schema([
                         Forms\Components\Select::make('department_id')
@@ -88,8 +87,8 @@ class IssueResource extends Resource
                     ])->columns(2),
                 Forms\Components\Section::make('Issue Resolution')
                     ->schema([
-                        Forms\Components\Select::make('resolved_by')
-                            ->label('Resolved By')
+                        Forms\Components\Select::make('submitted_by')
+                            ->label('Submitted By')
                             ->options(
                                 \App\Models\User::all()->pluck('email', 'id')
                             )
@@ -126,9 +125,6 @@ class IssueResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('department.name')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('findings')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('criteria')
@@ -152,9 +148,9 @@ class IssueResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'gray',
-                        'submitted' => 'blue',
-                        'resolved' => 'green',
-                        'rejected' => 'red',
+                        'submitted' => 'info',
+                        'resolved' => 'success',
+                        'rejected' => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

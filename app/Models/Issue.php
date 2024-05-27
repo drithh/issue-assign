@@ -31,7 +31,7 @@ class Issue extends Model
         'target_time',
         'resolution_description',
         'file_url',
-        'resolved_by',
+        'submitted_by',
         'submitted_at',
 
         'status',
@@ -44,8 +44,8 @@ class Issue extends Model
 
         static::updating(function ($issue) {
             if (!Auth::user()->is_admin) {
-                $issue->status = 'resolved';
-                $issue->resolved_by = Auth::id();
+                $issue->status = 'submitted';
+                $issue->submitted_by = Auth::id();
                 $issue->submitted_at = now();
             }
         });

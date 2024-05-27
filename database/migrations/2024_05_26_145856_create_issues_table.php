@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->text('resolution_description')->nullable();
             $table->string('file_url')->nullable();
-            $table->foreignId('resolved_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('submitted_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamp('submitted_at')->nullable();
 
             $table->text('comment')->nullable();

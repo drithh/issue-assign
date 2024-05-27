@@ -70,8 +70,8 @@ class IssueResource extends Resource
                     ])->columns(2),
                 Forms\Components\Section::make('Issue Resolution')
                     ->schema([
-                        Forms\Components\Select::make('resolved_by')
-                            ->label('Resolved By')
+                        Forms\Components\Select::make('submitted_by')
+                            ->label('Submitted By')
                             ->options(
                                 \App\Models\User::all()->pluck('email', 'id')
                             )
@@ -128,9 +128,9 @@ class IssueResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'gray',
-                        'submitted' => 'blue',
-                        'resolved' => 'green',
-                        'rejected' => 'red',
+                        'submitted' => 'info',
+                        'resolved' => 'success',
+                        'rejected' => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
