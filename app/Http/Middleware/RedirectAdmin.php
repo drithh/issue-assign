@@ -16,10 +16,15 @@ class RedirectAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() && Auth::user()->is_admin) {
-            return redirect()->route('filament.admin.pages.dashboard');
-        } else {
-            return $next($request);
+        if (Auth::user()) {
+            if (Auth::user()->is_admin) {
+                return redirect()->route('filament.admin.pages.dashboard');
+            } else if (Auth::user()->is_verified) {
+                return $next($request);
+            } else {
+                abort(403, "Your account is not verified.");
+            }
         }
+        return $next($request);
     }
 }

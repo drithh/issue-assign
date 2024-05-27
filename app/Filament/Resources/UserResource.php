@@ -32,10 +32,12 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_admin')
                     ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\Toggle::make('is_verified')
+                    ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
+                    ->hiddenOn(['create', 'edit'])
                     ->maxLength(255),
             ]);
     }
@@ -50,9 +52,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_admin')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\IconColumn::make('is_verified')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

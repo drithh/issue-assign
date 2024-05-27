@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('coba1234'),
             'is_admin' => true,
+            'is_verified' => true,
         ]);
 
         \App\Models\User::factory()->create([
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@user.com',
             'password' => bcrypt('coba1234'),
             'department_id' => 1,
+            'is_verified' => true,
         ]);
 
         \App\Models\User::factory()->create([
@@ -36,6 +38,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'user2@user.com',
             'password' => bcrypt('coba1234'),
             'department_id' => 1,
+            'is_verified' => true,
         ]);
 
         \App\Models\User::factory()->create([
@@ -43,6 +46,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'user3@user.com',
             'password' => bcrypt('coba1234'),
             'department_id' => 2,
+            'is_verified' => true,
         ]);
     }
 }

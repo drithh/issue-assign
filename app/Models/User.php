@@ -27,7 +27,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
-        'department_id'
+        'department_id',
+        'is_verified'
     ];
 
     /**
@@ -46,7 +47,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'is_verified' => 'boolean',
         'password' => 'hashed',
         'is_admin' => 'boolean'
     ];
