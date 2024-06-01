@@ -162,7 +162,12 @@ class IssueResource extends Resource
     }
 
 
-
+    public static function getRelations(): array
+    {
+        return [
+            'editHistory' => RelationManagers\IssueHistoryRelationManager::class,
+        ];
+    }
 
     public static function getPages(): array
     {
