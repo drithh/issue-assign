@@ -20,6 +20,7 @@ class DepartmentOverview extends BaseWidget
             Stat::make('Department Member', User::where('department_id', Auth::user()->department_id)->count())
                 ->icon('heroicon-o-users')
                 ->color('purple')
+                
 
         ];
     }

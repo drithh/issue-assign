@@ -45,7 +45,8 @@ class IssueResource extends Resource
                             ->required()
                             ->disabledOn(['edit'])
                             ->options(
-                                \App\Models\Department::all()->pluck('name', 'id')
+                                // \App\Models\Department::all()->pluck('name', 'id')
+                                \App\Models\Department::orderBy('name')->get()->pluck('name', 'id')
                             ),
                         Forms\Components\DateTimePicker::make('target_time')
                             ->required(),
@@ -171,5 +172,6 @@ class IssueResource extends Resource
             'view' => Pages\ViewIssue::route('/{record}'),
             'edit' => Pages\EditIssue::route('/{record}/edit'),
         ];
+        
     }
 }
