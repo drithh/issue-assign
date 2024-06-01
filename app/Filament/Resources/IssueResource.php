@@ -33,11 +33,13 @@ class IssueResource extends Resource
                                 'submitted' => 'Submitted',
                                 'resolved' => 'Resolved',
                                 'rejected' => 'Rejected',
-                            ])->hiddenOn(['create']),
+                            ]),
+                        Forms\Components\DateTimePicker::make('target_time')
+                            ->required(),
                         Forms\Components\Textarea::make('comment')
                             ->maxLength(255)
                             ->columnSpanFull(),
-                    ])->columns(1)->hiddenOn(['create']),
+                    ])->columns(2)->hiddenOn(['create']),
                 Forms\Components\Section::make('Detail Issue')
                     ->schema([
                         Forms\Components\Select::make('department_id')
@@ -45,11 +47,8 @@ class IssueResource extends Resource
                             ->required()
                             ->disabledOn(['edit'])
                             ->options(
-                                // \App\Models\Department::all()->pluck('name', 'id')
                                 \App\Models\Department::orderBy('name')->get()->pluck('name', 'id')
-                            ),
-                        Forms\Components\DateTimePicker::make('target_time')
-                            ->required(),
+                            )->columnSpanFull(),
                         Forms\Components\TextInput::make('findings')
                             ->required()
                             ->maxLength(255),
@@ -57,14 +56,6 @@ class IssueResource extends Resource
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Textarea::make('requirements')
-                            ->required()
-                            ->maxLength(255)
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('root_cause_analysis')
-                            ->required()
-                            ->maxLength(255)
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('corrective_actions')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
@@ -80,7 +71,16 @@ class IssueResource extends Resource
                         Forms\Components\DateTimePicker::make('submitted_at')
                             ->disabled(),
                         Forms\Components\Textarea::make('resolution_description')
-                            ->maxLength(65535)
+                            ->disabled()
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('root_cause_analysis')
+                            ->disabled()
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('corrective_actions')
+                            ->disabled()
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('preventive_actions')
+                            ->required()
                             ->disabled()
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('file_url')
@@ -172,6 +172,5 @@ class IssueResource extends Resource
             'view' => Pages\ViewIssue::route('/{record}'),
             'edit' => Pages\EditIssue::route('/{record}/edit'),
         ];
-        
     }
 }
