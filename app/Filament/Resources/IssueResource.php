@@ -49,13 +49,13 @@ class IssueResource extends Resource
                             ->options(
                                 \App\Models\Department::orderBy('name')->get()->pluck('name', 'id')
                             )->columnSpanFull(),
-                        Forms\Components\TextInput::make('findings')
+                        Forms\Components\TextInput::make('requirements')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('criteria')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('requirements')
+                        Forms\Components\Textarea::make('findings')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
