@@ -49,13 +49,18 @@ class IssueResource extends Resource
                             ->options(
                                 \App\Models\Department::orderBy('name')->get()->pluck('name', 'id')
                             )->columnSpanFull(),
-                        Forms\Components\TextInput::make('requirements')
+                        Forms\Components\TextArea::make('findings')
                             ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('criteria')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\Textarea::make('findings')
+                            ->maxLength(255)->columnSpanFull(),
+                        Forms\Components\Select::make('criteria')
+                            ->label('Criteria')
+                            ->options([
+                                'critical' => 'Critical',
+                                'mayor' => 'Mayor',
+                                'minor' => 'Minor'
+                            ])
+                            ->required(),
+                        Forms\Components\Textarea::make('requirements')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
@@ -97,6 +102,7 @@ class IssueResource extends Resource
 
 
             ]);
+         
     }
 
     public static function table(Table $table): Table
