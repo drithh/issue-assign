@@ -32,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
                 'danger' => Color::Red,
                 'gray' => Color::Gray,
                 'info' => Color::Blue,
-                'primary' => Color::Amber,
+                'primary' => Color::Red,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])->userMenuItems([
@@ -41,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-cog-6-tooth')
                     ->url('/app')
             ])
+            ->favicon(asset('images/Samco-Logo.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

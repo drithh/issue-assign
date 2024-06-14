@@ -24,9 +24,9 @@ class Issue extends Model
         'department_id',
         'findings',
         'criteria',
-        'requirements',
-        'root_cause_analysis',
-        'corrective_actions',
+        'additonal_data',
+        // 'root_cause_analysis',
+        // 'corrective_actions',
 
         'target_time',
         'resolution_description',
@@ -78,8 +78,8 @@ class Issue extends Model
     }
 
 
-    public function scopeForDepartment(Builder $query, Department $department)
-    {
-        return $query->where('department_id', $department->id);
-    }
+    // public function scopeForDepartment(Builder $query, Department $department)
+    // {
+    //     return $query->where('department_id', $department->id);
+    // }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Department;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -26,10 +28,19 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('password')
+                    ->required()
+                    ->password(),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('department_id')
+                    ->label('Department')
+                    ->required()
+                    ->options(
+                        \App\Models\Department::all()->pluck('name', 'id')
+                      )->columnSpanFull(),
                 Forms\Components\Toggle::make('is_admin')
                     ->required(),
                 Forms\Components\Toggle::make('is_verified')
@@ -47,6 +58,8 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('department.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),

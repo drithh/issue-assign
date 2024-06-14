@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -53,13 +54,21 @@ class User extends Authenticatable implements FilamentUser
         'is_admin' => 'boolean'
     ];
 
-    public function departments()
-    {
-        return $this->belongsTo(Department::class);
-    }
+    
 
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    // public function scopeForDepartment(Builder $query, Department $department)
+    // {
+    //     return $query->where('department_id', $department->id);
+    // }
+    
 }

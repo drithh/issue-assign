@@ -24,13 +24,17 @@ class ListIssues extends ListRecords
         return [
             'all' => Tab::make(),
             'pending' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pending')),
+                        ->badge(\App\Models\Issue::where('status', 'pending')->count())
+                        ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pending')),
             'submitted' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'submitted')),
+                        ->badge(\App\Models\Issue::where('status', 'submitted')->count())
+                        ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'submitted')),
             'rejected' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'rejected')),
+                        ->badge(\App\Models\Issue::where('status', 'rejected')->count())
+                        ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'rejected')),
             'solved' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'resolved')),
+                        ->badge(\App\Models\Issue::where('status', 'resolved')->count())
+                        ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'resolved')),
         ];
     }
 }

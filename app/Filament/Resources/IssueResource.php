@@ -55,18 +55,18 @@ class IssueResource extends Resource
                         Forms\Components\TextInput::make('criteria')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('requirements')
+                        Forms\Components\Textarea::make('additonal_data')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('root_cause_analysis')
-                            ->required()
-                            ->maxLength(255)
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('corrective_actions')
-                            ->required()
-                            ->maxLength(255)
-                            ->columnSpanFull(),
+                        // Forms\Components\Textarea::make('root_cause_analysis')
+                        //     ->required()
+                        //     ->maxLength(255)
+                        //     ->columnSpanFull(),
+                        // Forms\Components\Textarea::make('corrective_actions')
+                        //     ->required()
+                        //     ->maxLength(255)
+                        //     ->columnSpanFull(),
                     ])->columns(2),
                 Forms\Components\Section::make('Issue Resolution')
                     ->schema([
@@ -103,22 +103,22 @@ class IssueResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('department.name')
-                    ->searchable()
-                    ->sortable(),
+                ->searchable()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('findings')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('criteria')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('requirements')
+                Tables\Columns\TextColumn::make('additonal_data')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('root_cause_analysis')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('corrective_actions')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('root_cause_analysis')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('corrective_actions')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('target_time')
                     ->dateTime()
                     ->sortable(),

@@ -66,24 +66,24 @@ class IssueResource extends Resource
                             ->readOnly()
                             ->maxLength(255)
                             ->disabledOn(['edit']),
-                        Forms\Components\Textarea::make('requirements')
+                        Forms\Components\Textarea::make('additonal_data')
                             ->required()
                             ->maxLength(255)
                             ->readOnly()
                             ->disabledOn(['edit'])
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('root_cause_analysis')
-                            ->required()
-                            ->maxLength(255)
-                            ->readOnly()
-                            ->disabledOn(['edit'])
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('corrective_actions')
-                            ->required()
-                            ->maxLength(255)
-                            ->readOnly()
-                            ->disabledOn(['edit'])
-                            ->columnSpanFull(),
+                        // Forms\Components\Textarea::make('root_cause_analysis')
+                        //     ->required()
+                        //     ->maxLength(255)
+                        //     ->readOnly()
+                        //     ->disabledOn(['edit'])
+                        //     ->columnSpanFull(),
+                        // Forms\Components\Textarea::make('corrective_actions')
+                        //     ->required()
+                        //     ->maxLength(255)
+                        //     ->readOnly()
+                        //     ->disabledOn(['edit'])
+                        //     ->columnSpanFull(),
                     ])->columns(2),
                 Forms\Components\Section::make('Issue Resolution')
                     ->schema([
@@ -130,15 +130,15 @@ class IssueResource extends Resource
                 Tables\Columns\TextColumn::make('criteria')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('requirements')
+                Tables\Columns\TextColumn::make('additonal_data')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('root_cause_analysis')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('corrective_actions')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('root_cause_analysis')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('corrective_actions')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('target_time')
                     ->dateTime()
                     ->sortable(),

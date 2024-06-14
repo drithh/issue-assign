@@ -45,10 +45,12 @@ class AppPanelProvider extends PanelProvider
                 'danger' => Color::Red,
                 'gray' => Color::Gray,
                 'info' => Color::Blue,
-                'primary' => Color::Indigo,
+                'primary' => Color::Red,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
+            ->brandLogo(asset('images/logo-samco.png'))
+            ->favicon(asset('images/Samco-Logo.png'))
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
