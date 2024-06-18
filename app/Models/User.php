@@ -53,7 +53,7 @@ class User extends Authenticatable implements FilamentUser
         'is_admin' => 'boolean'
     ];
 
-    public function departments()
+    public function department()
     {
         return $this->belongsTo(Department::class);
     }
