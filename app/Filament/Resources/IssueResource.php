@@ -59,10 +59,8 @@ class IssueResource extends Resource
                             ->required(),
                         Forms\Components\Textarea::make('findings')
                             ->required()
-                            ->readOnly()
                             ->maxLength(255)
-                            ->columnSpanFull()
-                            ->disabledOn(['edit']),
+                            ->columnSpanFull(),
                         Forms\Components\Textarea::make('additonal_data')
                             ->required()
                             ->maxLength(255)
