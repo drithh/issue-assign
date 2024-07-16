@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class EditUser extends EditRecord
 {

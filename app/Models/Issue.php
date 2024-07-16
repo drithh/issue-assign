@@ -58,8 +58,6 @@ class Issue extends Model
         'findings',
         'criteria',
         'additonal_data',
-        // 'root_cause_analysis',
-        // 'corrective_actions',
 
         'target_time',
 
@@ -102,8 +100,15 @@ class Issue extends Model
 
     public function editHistory()
     {
-        return $this->asDateTime($value)->format('Y-m-d\TH:i');
+        return $this->hasMany(IssueEditHistory::class);
     }
+
+    public function getTargetTimeAttribute($value)
+    {
+        return $this->asDateTime($value)->format('Y-m-d H:i:s');
+    }
+
+
 
     public function setTargetTimeAttribute($value)
     {

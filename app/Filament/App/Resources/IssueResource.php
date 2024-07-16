@@ -52,32 +52,25 @@ class IssueResource extends Resource
                             ->required()
                             ->disabledOn(['edit'])
                             ->options(
-                                \App\Models\Department::all()->pluck('name', 'id')
+                                \App\Models\Department::orderBy('name')->get()->pluck('name', 'id')
                             ),
+                        Forms\Components\Select::make('criteria')
+                            ->label('Criteria')
+                            ->options([
+                                'critical' => 'Critical',
+                                'mayor' => 'Mayor',
+                                'minor' => 'Minor'
+                            ])
+                            ->required()
+                            ->disabledOn(['edit']),
+                        Forms\Components\Textarea::make('findings')
+                            ->required()
+                            ->readOnly()
+                            ->maxLength(255)
+                            ->columnSpanFull()
+                            ->disabledOn(['edit']),
 
-                        Forms\Components\TextInput::make('findings')
-                            ->required()
-                            ->readOnly()
-                            ->maxLength(255)
-                            ->disabledOn(['edit']),
-                        Forms\Components\TextInput::make('criteria')
-                            ->required()
-                            ->readOnly()
-                            ->maxLength(255)
-                            ->disabledOn(['edit']),
                         Forms\Components\Textarea::make('additonal_data')
-                            ->required()
-                            ->maxLength(255)
-                            ->readOnly()
-                            ->disabledOn(['edit'])
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('root_cause_analysis')
-                            ->required()
-                            ->maxLength(255)
-                            ->readOnly()
-                            ->disabledOn(['edit'])
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('corrective_actions')
                             ->required()
                             ->maxLength(255)
                             ->readOnly()

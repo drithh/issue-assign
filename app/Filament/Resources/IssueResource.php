@@ -48,10 +48,7 @@ class IssueResource extends Resource
                             ->disabledOn(['edit'])
                             ->options(
                                 \App\Models\Department::orderBy('name')->get()->pluck('name', 'id')
-                            )->columnSpanFull(),
-                        Forms\Components\TextArea::make('findings')
-                            ->required()
-                            ->maxLength(255)->columnSpanFull(),
+                            ),
                         Forms\Components\Select::make('criteria')
                             ->label('Criteria')
                             ->options([
@@ -60,17 +57,12 @@ class IssueResource extends Resource
                                 'minor' => 'Minor'
                             ])
                             ->required(),
-                        Forms\Components\TextInput::make('findings')
+                        Forms\Components\Textarea::make('findings')
                             ->required()
-                            ->maxLength(255),
-                        Forms\Components\Select::make('criteria')
-                        ->label('Criteria')
-                        ->options([
-                                'critical' => 'Critical',
-                                'mayor' => 'Mayor',
-                                'minor' => 'Minor'
-                        ])    
-                        ->required(),
+                            ->readOnly()
+                            ->maxLength(255)
+                            ->columnSpanFull()
+                            ->disabledOn(['edit']),
                         Forms\Components\Textarea::make('additonal_data')
                             ->required()
                             ->maxLength(255)
@@ -121,7 +113,6 @@ class IssueResource extends Resource
 
 
             ]);
-         
     }
 
     public static function table(Table $table): Table
@@ -129,8 +120,8 @@ class IssueResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('department.name')
-                ->searchable()
-                ->sortable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('findings')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('criteria')
