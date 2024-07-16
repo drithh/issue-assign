@@ -38,11 +38,13 @@ class IssueResource extends Resource
                                 'rejected' => 'Rejected',
                             ])
                             ->disabled(),
+                        Forms\Components\DateTimePicker::make('target_time')
+                            ->required(),
                         Forms\Components\Textarea::make('comment')
                             ->maxLength(255)
                             ->columnSpanFull()
                             ->disabled(),
-                    ])->columns(1)->hiddenOn(['create']),
+                    ])->columns(2)->hiddenOn(['create']),
                 Forms\Components\Section::make('Detail Issue')
                     ->schema([
                         Forms\Components\Select::make('department_id')
@@ -52,10 +54,7 @@ class IssueResource extends Resource
                             ->options(
                                 \App\Models\Department::all()->pluck('name', 'id')
                             ),
-                        Forms\Components\DateTimePicker::make('target_time')
-                            ->required()
-                            ->readOnly()
-                            ->disabledOn(['edit']),
+
                         Forms\Components\TextInput::make('findings')
                             ->required()
                             ->readOnly()
@@ -72,18 +71,18 @@ class IssueResource extends Resource
                             ->readOnly()
                             ->disabledOn(['edit'])
                             ->columnSpanFull(),
-                        // Forms\Components\Textarea::make('root_cause_analysis')
-                        //     ->required()
-                        //     ->maxLength(255)
-                        //     ->readOnly()
-                        //     ->disabledOn(['edit'])
-                        //     ->columnSpanFull(),
-                        // Forms\Components\Textarea::make('corrective_actions')
-                        //     ->required()
-                        //     ->maxLength(255)
-                        //     ->readOnly()
-                        //     ->disabledOn(['edit'])
-                        //     ->columnSpanFull(),
+                        Forms\Components\Textarea::make('root_cause_analysis')
+                            ->required()
+                            ->maxLength(255)
+                            ->readOnly()
+                            ->disabledOn(['edit'])
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('corrective_actions')
+                            ->required()
+                            ->maxLength(255)
+                            ->readOnly()
+                            ->disabledOn(['edit'])
+                            ->columnSpanFull(),
                     ])->columns(2),
                 Forms\Components\Section::make('Issue Resolution')
                     ->schema([
@@ -92,11 +91,23 @@ class IssueResource extends Resource
                             ->options(
                                 \App\Models\User::all()->pluck('email', 'id')
                             )
-                            ->disabled(),
+                            ->hiddenOn(['edit']),
                         Forms\Components\DateTimePicker::make('submitted_at')
                             ->readOnly()
-                            ->disabledOn(['edit']),
+                            ->hiddenOn(['edit']),
                         Forms\Components\Textarea::make('resolution_description')
+                            ->required()
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('root_cause_analysis')
+                            ->required()
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('corrective_actions')
+                            ->required()
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('preventive_actions')
                             ->required()
                             ->maxLength(65535)
                             ->columnSpanFull(),

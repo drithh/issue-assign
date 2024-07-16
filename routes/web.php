@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/storage-link', function () {
+    $targetFolder = base_path().'/storage/app/public';
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'].'storage';
+    symlink($targetFolder, $linkFolder);
+});
+
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('config:clear');
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    return 'DONE'; //Return anything
+});
+
+Route::get('/root-cache', function(){
+    Artisan::call('route:cache');
+});
+
+Route::get('/root-clear', function(){
+    Artisan::call('route:clear');
+});
+
+Route::get('/migrate-fresh', function(){
+    Artisan::call('migrate:fresh --seed');
+});

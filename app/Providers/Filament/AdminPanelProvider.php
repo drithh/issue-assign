@@ -64,5 +64,6 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
                 VerifyIsAdmin::class,
             ]);
+
     }
 }

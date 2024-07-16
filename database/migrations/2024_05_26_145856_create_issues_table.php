@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
+            $table->string('status')->default('pending');
+
             $table->string('findings');
             $table->string('criteria');
             $table->string('additonal_data');
@@ -20,15 +22,18 @@ return new class extends Migration
             // $table->string('corrective_actions');
             $table->timestamp('target_time');
             $table->foreignId('department_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('pending');
 
-            $table->text('resolution_description')->nullable();
-            $table->string('file_url')->nullable();
+            $table->timestamp('target_time')->nullable();
+            $table->string('resolution_description')->nullable();
+            $table->text('corrective_actions')->nullable();
+            $table->text('root_cause_analysis')->nullable();
+            $table->text('preventive_actions')->nullable();
+            $table->text('file_url')->nullable();
+
             $table->foreignId('submitted_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamp('submitted_at')->nullable();
 
             $table->text('comment')->nullable();
-
             $table->timestamps();
         });
     }

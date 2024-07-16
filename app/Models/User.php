@@ -54,16 +54,14 @@ class User extends Authenticatable implements FilamentUser
         'is_admin' => 'boolean'
     ];
 
-    
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
     }
 
     // public function scopeForDepartment(Builder $query, Department $department)

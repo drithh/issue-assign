@@ -48,8 +48,13 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->hiddenOn(['create', 'edit'])
                     ->maxLength(255),
+                    Forms\Components\Select::make('department_id')
+                    ->label('Department')
+                    ->required()
+                    ->options(
+                        \App\Models\Department::all()->pluck('name', 'id')
+                      )->columnSpanFull(),
             ]);
     }
 
@@ -63,6 +68,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('department.name')
+                ->searchable(),
                 Tables\Columns\IconColumn::make('is_admin')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_verified')
