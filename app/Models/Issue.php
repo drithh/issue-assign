@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
 
 class Issue extends Model
 {
@@ -34,6 +35,18 @@ class Issue extends Model
                 'status' => $issue->status,
                 'edited_by' => auth()->id(),
             ]);
+
+            // if not is admin then inform all admins that the issue has been submitted
+            if (!$is_admin) {
+                $admins = User::where('is_admin', true)->get();
+
+                $name = auth()->user()->name;
+                foreach ($admins as $admin) {
+                    Notification::make()
+                        ->title("{$issue->findings} ({$issue->department->name}) has been submitted by {$name}")
+                        ->sendToDatabase($admin);
+                }
+            }
         });
     }
 

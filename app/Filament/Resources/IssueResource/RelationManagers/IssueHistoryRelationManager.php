@@ -20,14 +20,15 @@ class IssueHistoryRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('comment')
+                Forms\Components\TextInput::make('status')
                     ->required()
                     ->readOnly()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('status')
+                Forms\Components\Textarea::make('comment')
                     ->required()
                     ->readOnly()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('edited_by')->formatStateUsing(function ($state) {
                     $user = User::find($state);
                     return $user ? $user->email : null;
@@ -44,10 +45,10 @@ class IssueHistoryRelationManager extends RelationManager
             ->recordTitleAttribute('issue_id')
             ->defaultSort('created_at', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('comment')
+                Tables\Columns\TextColumn::make('status')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('comment')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('edited_by')->formatStateUsing(function ($state) {
