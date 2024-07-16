@@ -19,34 +19,20 @@ class Issue extends Model
 
         static::created(function ($issue) {
             $issue->editHistory()->create([
-                'field_name' => 'issue_created',
-                'old_value' => null,
-                'new_value' => null,
-                'edited_by' => auth()->id(), // or any user ID
+                'comment' => null,
+                'status' => 'pending',
+                'edited_by' => auth()->id(),
             ]);
         });
 
-        static::updating(function ($issue) {
-            foreach ($issue->getDirty() as $field => $newValue) {
-                $oldValue = $issue->getOriginal($field);
+        static::updated(function ($issue) {
+            $is_admin = auth()->user()->is_admin;
 
-                if ($oldValue != $newValue) {
-                    $issue->editHistory()->create([
-                        'field_name' => $field,
-                        'old_value' => $oldValue,
-                        'new_value' => $newValue,
-                        'edited_by' => auth()->id(), // or any user ID
-                    ]);
-                }
-            }
-        });
-
-        static::deleting(function ($issue) {
+            // user cant comment so make it null if not admin
             $issue->editHistory()->create([
-                'field_name' => 'issue_deleted',
-                'old_value' => null,
-                'new_value' => null,
-                'edited_by' => auth()->id(), // or any user ID
+                'comment' => $is_admin ? $issue->comment : null,
+                'status' => $issue->status,
+                'edited_by' => auth()->id(),
             ]);
         });
     }

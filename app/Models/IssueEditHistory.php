@@ -11,9 +11,8 @@ class IssueEditHistory extends Model
 
     protected $fillable = [
         'issue_id',
-        'field_name',
-        'old_value',
-        'new_value',
+        'comment',
+        'status',
         'edited_by',
     ];
 

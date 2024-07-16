@@ -12,8 +12,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Department::create([
+            'name' => 'Finance',
+        ]);
 
-        \App\Models\Department::factory(3)->create();
+        \App\Models\Department::create([
+            'name' => 'Sales',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'QC',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'Purchasing',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'Produksi',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'QA',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'Product Development',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'HRD',
+        ]);
+
+        \App\Models\Department::create([
+            'name' => 'PPIC & Warehouse',
+        ]);
 
         \App\Models\Issue::factory(10)->create();
 

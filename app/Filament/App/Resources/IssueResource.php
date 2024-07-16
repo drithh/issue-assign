@@ -4,7 +4,6 @@ namespace App\Filament\App\Resources;
 
 use App\Filament\App\Resources\IssueResource\Pages;
 use App\Filament\App\Resources\IssueResource\RelationManagers;
-use App\Filament\App\Resources\IssueResource\RelationManagers\ResolutionRelationManager;
 use App\Models\Issue;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -43,7 +42,8 @@ class IssueResource extends Resource
                         Forms\Components\Textarea::make('comment')
                             ->maxLength(255)
                             ->columnSpanFull()
-                            ->disabled(),
+                            ->disabled()
+                            ->hiddenOn(['edit']),
                     ])->columns(2)->hiddenOn(['create']),
                 Forms\Components\Section::make('Detail Issue')
                     ->schema([
@@ -203,7 +203,9 @@ class IssueResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            'editHistory' => RelationManagers\IssueHistoryRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

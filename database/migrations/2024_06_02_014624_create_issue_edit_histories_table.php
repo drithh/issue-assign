@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('issue_edit_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('issue_id')->constrained()->onDelete('cascade');
-            $table->string('field_name');
-            $table->text('old_value')->nullable();
-            $table->text('new_value')->nullable();
+            $table->string('comment')->nullable();
+            $table->text('status');
             $table->foreignId('edited_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
