@@ -52,9 +52,14 @@ class IssueResource extends Resource
                         Forms\Components\TextInput::make('findings')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('criteria')
-                            ->required()
-                            ->maxLength(255),
+                        Forms\Components\Select::make('criteria')
+                        ->label('Criteria')
+                        ->options([
+                                'critical' => 'Critical',
+                                'mayor' => 'Mayor',
+                                'minor' => 'Minor'
+                        ])    
+                        ->required(),
                         Forms\Components\Textarea::make('additonal_data')
                             ->required()
                             ->maxLength(255)
